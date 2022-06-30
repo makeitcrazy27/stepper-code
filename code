@@ -1,0 +1,79 @@
+
+// defines pins numbers
+const int leftStepPin = 3; 
+const int leftDirPin = 4; 
+const int rightStepPin = 5; 
+const int rightDirPin = 6;
+const int rightEnPin = 11;
+const int leftEnPin = 12;
+
+const int fireButton = 9;
+bool fire = false;
+
+int buttonFireState;
+int x = 0;
+ 
+void setup() {
+  // Sets the two pins as Outputs
+  pinMode(leftStepPin,OUTPUT); 
+  pinMode(leftDirPin,OUTPUT);
+  pinMode(rightStepPin,OUTPUT); 
+  pinMode(rightDirPin,OUTPUT);
+  pinMode(rightEnPin,OUTPUT); 
+  pinMode(leftEnPin,OUTPUT);
+
+  pinMode(fireButton,INPUT_PULLUP);
+  digitalWrite(leftStepPin,LOW);
+  digitalWrite(rightStepPin,LOW);
+  digitalWrite(leftEnPin,HIGH);
+  digitalWrite(rightEnPin,HIGH);
+  
+  Serial.begin(9600);
+  
+
+
+}
+void loop() {
+
+buttonFireState = digitalRead(fireButton);
+
+if (buttonFireState == LOW){
+  fire = true;
+}
+if (fire == true){
+  for (x = 0; x < 70; x++){
+    digitalWrite(leftDirPin,LOW); // Enables the motor to move in a particular direction
+    digitalWrite(rightDirPin,HIGH);
+    digitalWrite(leftStepPin,HIGH);
+    digitalWrite(rightStepPin,HIGH); 
+    delayMicroseconds(1000); 
+    digitalWrite(leftStepPin,LOW);
+    digitalWrite(rightStepPin,LOW);
+    digitalWrite(leftEnPin,LOW);
+    digitalWrite(rightEnPin,LOW);
+    delayMicroseconds(1000);   
+  }
+  
+  delay(3000);
+  for (x = 0; x < 70; x++){
+    digitalWrite(leftDirPin,HIGH); // Enables the motor to move in a particular direction
+    digitalWrite(rightDirPin,LOW);
+    digitalWrite(leftStepPin,HIGH);
+    digitalWrite(rightStepPin,HIGH); 
+    delayMicroseconds(1500); 
+    digitalWrite(leftStepPin,LOW);
+    digitalWrite(rightStepPin,LOW);
+    digitalWrite(leftEnPin,LOW);
+    digitalWrite(rightEnPin,LOW);
+    delayMicroseconds(1500);   
+  }
+  fire = false;
+  }
+
+  else if (fire == false){
+  digitalWrite(leftStepPin,LOW);
+  digitalWrite(rightStepPin,LOW);
+  digitalWrite(leftEnPin,LOW);
+  digitalWrite(rightEnPin,LOW);
+  }
+}
